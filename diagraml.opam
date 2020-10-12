@@ -13,4 +13,4 @@ depends: [
   "ocaml" {>= "4.07.1"}
   "dune" {build}
 ]
-synopsis: "a diagram generator"
+synopsis: "A diagram generator"
