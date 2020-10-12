@@ -1,0 +1,13 @@
+_build
+*.install
+*.exe
+*.cmi
+*.cmo
+*.cmx
+*.o
+*.log
+*.aux
+*.pdf
+.merlin
+dune-project
+output.json

@@ -1,0 +1,16 @@
+opam-version: "2.0"
+name: "diagraml"
+version: "0.1"
+maintainer: "sndtkrh@gmail.com"
+authors: ["Takahiro Sanada"]
+homepage: "https://github.com/sndtkrh/diagraml"
+bug-reports: "https://github.com/sndtkrh/diagraml/issues"
+dev-repo: "git+https://github.com/sndtkrh/diagraml.git"
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+]
+depends: [
+  "ocaml" {>= "4.07.1"}
+  "dune" {build}
+]
+synopsis: "a diagram generator"
