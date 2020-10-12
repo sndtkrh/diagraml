@@ -189,8 +189,8 @@ let coordinate_to_tikz image =
   let (_, ls) = List.fold_right f image (M.empty, []) in
   String.concat "\n" (List.concat ls)
   
-let to_tikz image =
-  "\\begin{tikzpicture}\n"
+let to_tikz ?(x="1cm") ?(y="1cm") image =
+  Printf.sprintf "\\begin{tikzpicture}[x=%s, y=%s]\n" x y
   ^ coordinate_to_tikz image ^ "\n"
   ^ String.concat "\n"
       (List.map
