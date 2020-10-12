@@ -65,6 +65,9 @@ let make_path prepath =
   in
   List.rev (loop [] Null prepath)
 
+let bpath p out_angle in_angle q =
+  make_path [p; Joint (Bezier {out_angle; in_angle}); q]
+
 let concat_path p q =
   let coord = function
     | Point p -> p
