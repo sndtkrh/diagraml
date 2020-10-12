@@ -87,13 +87,17 @@ let fill_to_tikz f =
   Printf.sprintf "\\fill[%s]" (color_to_string f.fill_color)
   ^ (cyclic_path_to_string f.fill_path) ^ ";"
 
+let stroke_to_tikz s =
+  Printf.sprintf "\\path[draw=%s]" (color_to_string s.stroke_color)
+  ^ (path_to_string s.stroke_path) ^ ";"
+
 let to_tikz draw =
   "\\begin{tikzpicture}\n"
   ^ String.concat "\n"
       (List.map
          (function
           | Fill f   -> fill_to_tikz f
-          | Stroke _ -> assert false)
+          | Stroke s -> stroke_to_tikz s)
          draw)
   ^ "\n"
   ^ "\\end{tikzpicture}\n"
