@@ -12,10 +12,9 @@ type color = Red of int | Green of int | Blue of int | Yellow of int | Black of 
 
 type fill = {fill_color: color; fill_path: cyclic_path}
 type stroke = {stroke_color: color; stroke_path: path}
+type node = {node_at: coordinate; node_dir: string; node_label:string}
 
-type dir = Above | Below | Left | Right
-
-type draw = Fill of fill | Stroke of stroke
+type draw = Fill of fill | Stroke of stroke | Node of node
 type image = draw list
 
 let rev_path path =
@@ -145,11 +144,16 @@ let stroke_to_tikz s =
   Printf.sprintf "\\path[draw=%s]" (color_to_string s.stroke_color)
   ^ (path_to_string s.stroke_path) ^ ";"
 
+let node_to_tikz n =
+  let (name, _) = n.node_at in
+  Printf.sprintf "\\node[%s] at (%s) {%s};" n.node_dir name n.node_label
+
 module M = Map.Make(String)
 let coordinate_to_tikz' m draw =
   let path = match draw with
     | Fill f -> let (p, _) = f.fill_path in p
     | Stroke s -> s.stroke_path
+    | Node n -> [Coordinate n.node_at]
   in
   let f c (m, l) =
     match c with
@@ -173,6 +177,7 @@ let coordinate_to_tikz' m draw =
     f
     (List.filter (function Coordinate _ -> true | _ -> false) path)
     (m, [])
+
 let coordinate_to_tikz image =
   let f draw (m, ls) =
     let (m', l) = coordinate_to_tikz' m draw in
@@ -188,7 +193,8 @@ let to_tikz image =
       (List.map
          (function
           | Fill f   -> fill_to_tikz f
-          | Stroke s -> stroke_to_tikz s)
+          | Stroke s -> stroke_to_tikz s
+          | Node n -> node_to_tikz n)
          image)
   ^ "\n"
   ^ "\\end{tikzpicture}\n"
